@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>GoldenMC</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<style>
+
+body {
+margin:0;
+font-family: 'Poppins', sans-serif;
+background: linear-gradient(135deg, #1a0033, #3b0066);
+color:white;
+}
+
+/* NAVBAR */
+.navbar {
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:#0f172a;
+}
+
+.logo {
+font-size:22px;
+font-weight:800;
+color:gold;
+}
+
+.menu a {
+margin:0 10px;
+color:white;
+text-decoration:none;
+}
+
+.login-btn {
+background:linear-gradient(45deg, #a855f7, #9333ea);
+padding:10px 20px;
+border-radius:10px;
+}
+
+/* HERO */
+.hero {
+padding:80px 50px;
+}
+
+.hero h1 {
+font-size:50px;
+}
+
+/* BUTTON */
+.btn {
+padding:15px 25px;
+border-radius:12px;
+margin-right:10px;
+display:inline-block;
+cursor:pointer;
+}
+
+.play {
+background:#9333ea;
+}
+
+.register {
+background:black;
+}
+
+/* STORE */
+.store {
+padding:40px;
+}
+
+.cards {
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.card {
+background:#111827;
+padding:20px;
+border-radius:15px;
+width:200px;
+text-align:center;
+}
+
+.card button {
+margin-top:10px;
+padding:10px;
+border:none;
+border-radius:10px;
+background:gold;
+cursor:pointer;
+}
+
+/* ROLES */
+.roles {
+display:flex;
+gap:20px;
+padding:40px;
+}
+
+.role {
+background:#111827;
+padding:15px;
+border-radius:10px;
+}
+
+/* CREDIT */
+.credit-box {
+padding:40px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">🟡 GoldenMC</div>
+
+```
+<div class="menu">
+    <a href="#">Duyurular</a>
+    <a href="#">Güncellemeler</a>
+    <a href="#">Destek</a>
+    <a href="#store">Mağaza</a>
+</div>
+
+<div class="login-btn">Giriş Yap</div>
+```
+
+</div>
+
+<div class="hero">
+    <h1>1 Numaralı Minecraft Sunucusuna Katıl!</h1>
+    <p>GoldenMC ücretsiz bir Minecraft sunucusudur.</p>
+
+```
+<div>
+    <span class="btn play">Şimdi Oyna</span>
+    <span class="btn register">Kayıt Ol</span>
+</div>
+```
+
+</div>
+
+<!-- STORE -->
+
+<div class="store" id="store">
+<h2>Mağaza</h2>
+
+<div class="cards">
+
+<div class="card"><h3>VIP</h3><p>60 TL</p><button onclick="satinal('VIP',60)">Satın Al</button></div>
+<div class="card"><h3>VIP+</h3><p>80 TL</p><button onclick="satinal('VIP+',80)">Satın Al</button></div>
+<div class="card"><h3>KVIP</h3><p>120 TL</p><button onclick="satinal('KVIP',120)">Satın Al</button></div>
+<div class="card"><h3>KVIP+</h3><p>160 TL</p><button onclick="satinal('KVIP+',160)">Satın Al</button></div>
+<div class="card"><h3>GoldenVIP</h3><p>200 TL</p><button onclick="satinal('GoldenVIP',200)">Satın Al</button></div>
+<div class="card"><h3>GoldenVIP+</h3><p>240 TL</p><button onclick="satinal('GoldenVIP+',240)">Satın Al</button></div>
+
+</div>
+</div>
+
+<!-- CREDIT -->
+
+<div class="credit-box">
+<h2>Kredi Satın Al</h2>
+
+<button onclick="krediAl(10)">10 TL = 10 Kredi</button> <button onclick="krediAl(50)">50 TL = 50 Kredi</button> <button onclick="krediAl(100)">100 TL = 100 Kredi</button>
+
+<p id="krediYazi">Toplam Kredi: 0</p>
+</div>
+
+<!-- ROLES -->
+
+<div class="roles">
+<div class="role">👑 Kurucu</div>
+<div class="role">🛠 Yönetici</div>
+<div class="role">⚔ Moderator</div>
+<div class="role">📘 Rehber</div>
+</div>
+
+<script>
+
+// KREDİ
+let kredi = 0;
+
+function krediAl(miktar){
+    alert(miktar + " TL ödeme için Paycell'e yönlendiriliyorsun");
+    window.location.href = "https://paycell.com.tr";
+    kredi += miktar;
+    document.getElementById("krediYazi").innerText = "Toplam Kredi: " + kredi;
+}
+
+// SATIN AL
+function satinal(paket,fiyat){
+    alert(paket + " ("+fiyat+" TL) satın almak için Paycell'e gidiyorsun");
+    window.location.href = "https://paycell.com.tr";
+}
+
+// ROL SİSTEMİ
+let userRole = "rehber";
+
+if(userRole !== "kurucu"){
+    console.log("Tüm yetkiler açık değil");
+}
+
+</script>
+
+</body>
+</html>
