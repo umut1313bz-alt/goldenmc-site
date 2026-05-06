@@ -1,180 +1,225 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>GoldenMC</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<title>GoldenMC Pro</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+
 body{
-margin:0;
-font-family:Poppins;
-background:linear-gradient(135deg,#0f172a,#1e0033);
-color:white;
+    background:linear-gradient(135deg,#020617,#0f172a);
+    color:white;
 }
 
-.navbar{
-display:flex;
-justify-content:space-between;
-padding:15px 40px;
-background:#020617;
+/* NAV */
+nav{
+    display:flex;
+    gap:15px;
+    padding:15px;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(10px);
 }
 
-.logo{
-color:gold;
-font-weight:800;
-font-size:22px;
+nav button{
+    background:#1d4ed8;
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+    transition:0.2s;
 }
 
-.menu a{
-color:white;
-margin:10px;
-text-decoration:none;
+nav button:hover{
+    background:#2563eb;
 }
 
-.hero{
-text-align:center;
-padding:60px;
+/* PAGE */
+.page{
+    display:none;
+    padding:30px;
 }
 
-.section{
-padding:40px;
-}
+.active{display:block;}
 
-.cards{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-justify-content:center;
-}
-
+/* CARD */
 .card{
-background:#111827;
-padding:20px;
-border-radius:15px;
-width:220px;
-text-align:center;
-transition:0.3s;
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:20px;
+    backdrop-filter:blur(15px);
+    margin-bottom:20px;
 }
 
-.card:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px gold;
-}
-
-button{
-padding:10px;
-border:none;
-border-radius:10px;
-background:gold;
-cursor:pointer;
-font-weight:600;
-}
-
+/* INPUT */
 input{
-padding:10px;
-margin:5px;
-border-radius:8px;
-border:none;
+    padding:10px;
+    margin:5px 0;
+    width:200px;
+    border:none;
+    border-radius:8px;
 }
 
-.copy{
-background:#22c55e;
+/* BUTTON */
+.btn{
+    padding:10px 20px;
+    background:#22c55e;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
 }
 
+/* PANEL */
+#panel span{
+    display:block;
+    margin:5px 0;
+    font-size:18px;
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="navbar">
-<div class="logo">🟡 GoldenMC</div>
-<div class="menu">
-<a href="#">Ana Sayfa</a>
-<a href="#kredi">Kredi</a>
-<a href="#store">VIP</a>
-<a href="#login">Giriş</a>
-</div>
-</div>
+<nav>
+    <button onclick="go('home')">Ana</button>
+    <button onclick="go('shop')">Mağaza</button>
+    <button onclick="go('credit')">Kredi</button>
+    <button onclick="go('support')">Destek</button>
+    <button onclick="go('panel')">Panel</button>
+    <button onclick="go('login')">Giriş</button>
+</nav>
 
-<div class="hero">
-<h1>GoldenMC Sunucusuna Hoşgeldin</h1>
-<p>En iyi Minecraft deneyimi burada!</p>
-
-<button class="copy" onclick="kopyala()">IP Kopyala</button>
-
-</div>
-
-<!-- KREDİ -->
-
-<div class="section" id="kredi">
-<h2>Kredi Satın Al</h2>
-
-<div class="cards">
-<div class="card"><h3>50 Kredi</h3><p>50 TL</p><button onclick="kredi(50)">Satın Al</button></div>
-<div class="card"><h3>100 Kredi</h3><p>100 TL</p><button onclick="kredi(100)">Satın Al</button></div>
-<div class="card"><h3>200 Kredi</h3><p>200 TL</p><button onclick="kredi(200)">Satın Al</button></div>
-</div>
+<!-- ANA -->
+<div id="home" class="page active">
+    <div class="card">
+        <h1>GoldenMC PRO</h1>
+        <p>Gerçek platform hissi 🔥</p>
+    </div>
 </div>
 
-<!-- VIP -->
-
-<div class="section" id="store">
-<h2>VIP Mağaza</h2>
-
-<div class="cards">
-<div class="card"><h3>VIP</h3><p>60 Kredi</p><button onclick="vip('VIP')">Al</button></div>
-<div class="card"><h3>VIP+</h3><p>80 Kredi</p><button onclick="vip('VIP+')">Al</button></div>
-<div class="card"><h3>KVIP</h3><p>120 Kredi</p><button onclick="vip('KVIP')">Al</button></div>
-<div class="card"><h3>KVIP+</h3><p>160 Kredi</p><button onclick="vip('KVIP+')">Al</button></div>
-</div>
+<!-- SHOP -->
+<div id="shop" class="page">
+    <div class="card">
+        <h2>VIP Satın Al</h2>
+        <button class="btn" onclick="buyVIP()">VIP (100₺)</button>
+    </div>
 </div>
 
-<!-- GİRİŞ -->
-
-<div class="section" id="login">
-<h2>Giriş / Kayıt</h2>
-
-<input placeholder="Kullanıcı adı">
-<input placeholder="Şifre" type="password">
-
-<br>
-<button onclick="alert('Giriş yapıldı')">Giriş</button>
-<button onclick="alert('Kayıt olundu')">Kayıt</button>
+<!-- CREDIT -->
+<div id="credit" class="page">
+    <div class="card">
+        <h2>Kredi</h2>
+        <button class="btn" onclick="buyCredit()">100 Kredi (50₺)</button>
+    </div>
 </div>
 
-<!-- ÖDEME -->
+<!-- SUPPORT -->
+<div id="support" class="page">
+    <div class="card">
+        <h2>Destek</h2>
+        <p>yakında ticket sistemi eklenecek</p>
+    </div>
+</div>
 
-<div class="section">
-<h2>Ödeme Bildir</h2>
+<!-- PANEL -->
+<div id="panel" class="page">
+    <div class="card">
+        <h2>Kullanıcı Paneli</h2>
+        <span id="pUser"></span>
+        <span id="pCredit"></span>
+        <span id="pVIP"></span>
+    </div>
+</div>
 
-<input placeholder="Nick">
-<input type="file">
-<button onclick="alert('Gönderildi!')">Gönder</button>
+<!-- LOGIN -->
+<div id="login" class="page">
+    <div class="card">
+        <h2>Giriş / Kayıt</h2>
+        <input id="user" placeholder="Kullanıcı"><br>
+        <input id="pass" type="password" placeholder="Şifre"><br>
+        <button class="btn" onclick="register()">Kayıt</button>
+        <button class="btn" onclick="login()">Giriş</button>
+    </div>
 </div>
 
 <script>
 
-function kopyala(){
-navigator.clipboard.writeText("seninsunucu.falixsrv.me");
-alert("IP kopyalandı!");
+let currentUser = null;
+
+function go(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    updatePanel();
 }
 
-function kredi(m){
-alert(
-m+" TL gönder\n\n"+
-"Paycell: 05XXXXXXXXX\n"+
-"Açıklamaya nick yaz!"
-);
+/* KAYIT */
+function register(){
+    let u = user.value;
+    let p = pass.value;
+
+    let data = {
+        pass:p,
+        credit:0,
+        vip:false
+    };
+
+    localStorage.setItem("acc_"+u, JSON.stringify(data));
+    alert("Kayıt tamam");
 }
 
-function vip(v){
-alert(
-v+" almak için önce kredi satın al!\n"+
-"Sonra yetkiliye yaz."
-);
+/* LOGIN */
+function login(){
+    let u = user.value;
+    let p = pass.value;
+
+    let data = JSON.parse(localStorage.getItem("acc_"+u));
+
+    if(data && data.pass === p){
+        currentUser = u;
+        alert("Giriş başarılı");
+        go('panel');
+    }else{
+        alert("Hatalı giriş");
+    }
+}
+
+/* PANEL */
+function updatePanel(){
+    if(!currentUser){
+        pUser.innerText="Giriş yap";
+        return;
+    }
+
+    let data = JSON.parse(localStorage.getItem("acc_"+currentUser));
+
+    pUser.innerText = "Kullanıcı: " + currentUser;
+    pCredit.innerText = "Kredi: " + data.credit;
+    pVIP.innerText = "VIP: " + (data.vip ? "Aktif" : "Yok");
+}
+
+/* SATIN ALMA */
+function buyCredit(){
+    if(!currentUser) return alert("Önce giriş yap");
+
+    let data = JSON.parse(localStorage.getItem("acc_"+currentUser));
+    data.credit += 100;
+
+    localStorage.setItem("acc_"+currentUser, JSON.stringify(data));
+    alert("Kredi eklendi");
+    updatePanel();
+}
+
+function buyVIP(){
+    if(!currentUser) return alert("Önce giriş yap");
+
+    let data = JSON.parse(localStorage.getItem("acc_"+currentUser));
+    data.vip = true;
+
+    localStorage.setItem("acc_"+currentUser, JSON.stringify(data));
+    alert("VIP aktif!");
+    updatePanel();
 }
 
 </script>
