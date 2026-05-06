@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>GoldenMC</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+
+body{
+    background:linear-gradient(135deg,#020617,#0f172a);
+    color:white;
+}
+
+/* NAV */
+nav{
+    display:flex;
+    gap:10px;
+    padding:15px;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(15px);
+}
+
+nav button{
+    background:#1e293b;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+}
+
+/* PAGE */
+.page{display:none;padding:30px;}
+.active{display:block;}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    backdrop-filter:blur(20px);
+}
+
+/* BTN */
+.btn{
+    padding:10px 20px;
+    background:#22c55e;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+    margin:5px;
+}
+
+input,textarea{
+    padding:10px;
+    margin:5px;
+    border-radius:8px;
+    border:none;
+    width:250px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<button onclick="go('home')">Ana</button>
+<button onclick="go('shop')">Mağaza</button>
+<button onclick="go('apply')">Başvurular</button>
+<button onclick="go('panel')">Panel</button>
+<button onclick="go('login')">Giriş</button>
+</nav>
+
+<!-- ANA -->
+<div id="home" class="page active">
+<div class="card">
+<h1 id="welcome">GoldenMC'ye Hoşgeldin</h1>
+<p>Hesabın varsa giriş yap ve oyuna bağla 🔥</p>
+</div>
+</div>
+
+<!-- MAĞAZA -->
+<div id="shop" class="page">
+<div class="card">
+<h2>VIP Paketleri</h2>
+
+<button class="btn" onclick="buy('VIP',60)">VIP - 60₺</button>
+<button class="btn" onclick="buy('VIP+',80)">VIP+ - 80₺</button>
+<button class="btn" onclick="buy('KVIP',120)">KVIP - 120₺</button>
+<button class="btn" onclick="buy('KVIP+',160)">KVIP+ - 160₺</button>
+<button class="btn" onclick="buy('GoldenVIP',200)">GoldenVIP - 200₺</button>
+<button class="btn" onclick="buy('GoldenVIP+',240)">GoldenVIP+ - 240₺</button>
+
+</div>
+</div>
+
+<!-- BAŞVURU -->
+<div id="apply" class="page">
+<div class="card">
+<h2>Başvuru</h2>
+
+<p>Şartlar:</p>
+<ul>
+<li>✔ 12 yaşından büyük olmak</li>
+<li>✔ Saygılı olmak</li>
+</ul>
+
+<textarea id="appText" placeholder="Kendini tanıt"></textarea><br>
+<button class="btn" onclick="sendApp()">Gönder</button>
+
+</div>
+</div>
+
+<!-- PANEL -->
+<div id="panel" class="page">
+<div class="card">
+<h2>Panel</h2>
+<p id="pUser"></p>
+<p id="pVIP"></p>
+<p id="pAdmin"></p>
+</div>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="page">
+<div class="card">
+<h2>Giriş / Kayıt</h2>
+<input id="user" placeholder="Minecraft ismi"><br>
+<input id="pass" type="password" placeholder="Şifre"><br>
+<button class="btn" onclick="register()">Kayıt</button>
+<button class="btn" onclick="login()">Giriş</button>
+</div>
+</div>
+
+<script>
+
+let currentUser=null;
+
+/* SAYFA */
+function go(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+updatePanel();
+}
+
+/* KAYIT */
+function register(){
+let u=user.value;
+let p=pass.value;
+
+let data={pass:p,vip:"Yok"};
+
+localStorage.setItem("acc_"+u,JSON.stringify(data));
+alert("Kayıt tamam");
+}
+
+/* LOGIN */
+function login(){
+let u=user.value;
+let p=pass.value;
+
+let d=JSON.parse(localStorage.getItem("acc_"+u));
+
+if(d && d.pass===p){
+currentUser=u;
+welcome.innerText="GoldenMC'ye Hoşgeldin "+u;
+go('panel');
+}else alert("Hatalı");
+}
+
+/* PANEL */
+function updatePanel(){
+if(!currentUser)return;
+
+let d=JSON.parse(localStorage.getItem("acc_"+currentUser));
+
+pUser.innerText="Kullanıcı: "+currentUser;
+pVIP.innerText="VIP: "+d.vip;
+pAdmin.innerText="Admin: "+(currentUser==="umut1313"?"EVET":"Hayır");
+}
+
+/* SATIN AL */
+function buy(type,price){
+if(!currentUser)return alert("Giriş yap");
+
+let d=JSON.parse(localStorage.getItem("acc_"+currentUser));
+d.vip=type;
+
+localStorage.setItem("acc_"+currentUser,JSON.stringify(d));
+
+alert(type+" satın alındı (demo)");
+updatePanel();
+
+/* BURASI GERÇEK SİSTEM İÇİN */
+console.log("BACKEND'E GÖNDER:",currentUser,type);
+}
+
+/* BAŞVURU */
+function sendApp(){
+if(!currentUser)return alert("Giriş yap");
+
+let txt=appText.value;
+
+localStorage.setItem("app_"+currentUser,txt);
+alert("Başvuru gönderildi");
+}
+
+</script>
+
+</body>
+</html>
