@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>GoldenMC ULTRA</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+
+body{
+    background:linear-gradient(135deg,#020617,#0f172a);
+    color:white;
+}
+
+/* NAV */
+nav{
+    display:flex;
+    gap:10px;
+    padding:15px;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(15px);
+}
+
+nav button{
+    background:#1e293b;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+}
+
+/* PAGE */
+.page{display:none;padding:30px;}
+.active{display:block;}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:20px;
+    margin-bottom:20px;
+    backdrop-filter:blur(20px);
+}
+
+/* INPUT */
+input{
+    padding:10px;
+    margin:5px;
+    border-radius:8px;
+    border:none;
+}
+
+/* BTN */
+.btn{
+    padding:10px 20px;
+    background:#22c55e;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+}
+
+/* TABLE */
+table{width:100%;margin-top:10px;}
+td,th{padding:10px;}
+</style>
+</head>
+
+<body>
+
+<nav>
+<button onclick="go('home')">Ana</button>
+<button onclick="go('shop')">Mağaza</button>
+<button onclick="go('credit')">Kredi</button>
+<button onclick="go('panel')">Panel</button>
+<button onclick="go('admin')">Admin</button>
+<button onclick="go('login')">Giriş</button>
+</nav>
+
+<!-- ANA -->
+<div id="home" class="page active">
+<div class="card">
+<h1>GoldenMC ULTRA</h1>
+<p>Efsane sistem 🔥</p>
+</div>
+</div>
+
+<!-- SHOP -->
+<div id="shop" class="page">
+<div class="card">
+<h2>VIP</h2>
+<button class="btn" onclick="buyVIP()">VIP Al</button>
+</div>
+</div>
+
+<!-- CREDIT -->
+<div id="credit" class="page">
+<div class="card">
+<h2>Kredi</h2>
+<button class="btn" onclick="buyCredit()">100 Kredi</button>
+</div>
+</div>
+
+<!-- PANEL -->
+<div id="panel" class="page">
+<div class="card">
+<h2>Panel</h2>
+<p id="pUser"></p>
+<p id="pCredit"></p>
+<p id="pVIP"></p>
+</div>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="page">
+<div class="card">
+<h2>Giriş</h2>
+<input id="user" placeholder="Kullanıcı"><br>
+<input id="pass" type="password" placeholder="Şifre"><br>
+<button class="btn" onclick="register()">Kayıt</button>
+<button class="btn" onclick="login()">Giriş</button>
+</div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="page">
+<div class="card">
+<h2>Admin Panel</h2>
+
+<input id="adminUser" placeholder="Admin kullanıcı">
+<input id="adminPass" type="password" placeholder="Şifre">
+<button class="btn" onclick="adminLogin()">Giriş</button>
+
+<div id="adminPanel" style="display:none;">
+<h3>Kullanıcılar</h3>
+<table id="userTable"></table>
+</div>
+
+</div>
+</div>
+
+<script>
+
+let currentUser=null;
+
+/* SAYFA */
+function go(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+updatePanel();
+}
+
+/* KAYIT */
+function register(){
+let u=user.value;
+let p=pass.value;
+
+let data={pass:p,credit:0,vip:false};
+
+localStorage.setItem("acc_"+u,JSON.stringify(data));
+alert("Kayıt tamam");
+}
+
+/* LOGIN */
+function login(){
+let u=user.value;
+let p=pass.value;
+
+let data=JSON.parse(localStorage.getItem("acc_"+u));
+
+if(data && data.pass===p){
+currentUser=u;
+alert("Giriş başarılı");
+go('panel');
+}else alert("Hatalı");
+}
+
+/* PANEL */
+function updatePanel(){
+if(!currentUser)return;
+
+let d=JSON.parse(localStorage.getItem("acc_"+currentUser));
+
+pUser.innerText="Kullanıcı: "+currentUser;
+pCredit.innerText="Kredi: "+d.credit;
+pVIP.innerText="VIP: "+(d.vip?"Aktif":"Yok");
+}
+
+/* SATIN AL */
+function buyCredit(){
+if(!currentUser)return alert("Giriş yap");
+
+let d=JSON.parse(localStorage.getItem("acc_"+currentUser));
+d.credit+=100;
+
+localStorage.setItem("acc_"+currentUser,JSON.stringify(d));
+updatePanel();
+}
+
+function buyVIP(){
+if(!currentUser)return alert("Giriş yap");
+
+let d=JSON.parse(localStorage.getItem("acc_"+currentUser));
+d.vip=true;
+
+localStorage.setItem("acc_"+currentUser,JSON.stringify(d));
+updatePanel();
+}
+
+/* ADMIN LOGIN (ŞİFRE: goldenmc1313) */
+function adminLogin(){
+if(adminUser.value==="admin" && adminPass.value==="goldenmc1313"){
+adminPanel.style.display="block";
+loadUsers();
+}else alert("Yanlış admin");
+}
+
+/* USER LIST */
+function loadUsers(){
+let table=document.getElementById("userTable");
+table.innerHTML="<tr><th>Kullanıcı</th><th>Kredi</th><th>VIP</th></tr>";
+
+for(let i=0;i<localStorage.length;i++){
+let key=localStorage.key(i);
+
+if(key.startsWith("acc_")){
+let name=key.replace("acc_","");
+let d=JSON.parse(localStorage.getItem(key));
+
+table.innerHTML+=`
+<tr>
+<td>${name}</td>
+<td>${d.credit}</td>
+<td>${d.vip}</td>
+</tr>
+`;
+}
+}
+}
+
+</script>
+
+</body>
+</html>
